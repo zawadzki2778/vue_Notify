@@ -2,10 +2,8 @@
   <div class="wrapper-content wrapper-content--fixed">
     <section>
       <div class="container">
-
         <!-- wrapper -->
         <div class="notify__wrapper">
-
           <!-- title -->
           <div class="notify-title">
             <p>Notify App</p>
@@ -14,7 +12,9 @@
 
           <!-- notify -->
           <div class="notify__content">
-            <Notify :messages="messages" />
+            <!-- preloader -->
+            <Preloader v-if="loading" :width="90" :height="90" />
+            <Notify :messages="messages" v-if="!loading" />
           </div>
         </div>
       </div>
@@ -23,19 +23,34 @@
 </template>
 
 <script>
+import axios from "axios";
 import Notify from "@/components/Notify";
+import Preloader from "@/components/UI/Preloader";
 export default {
-  components: { Notify },
+  components: { Notify, Preloader },
   data() {
     return {
-      messages: [
-        { title: "message_1" },
-        { title: "message_2" },
-        { title: "message_3" },
-        { title: "message_4" },
-        { title: "message_5" },
-      ],
+      loading: true,
+      messages: [],
     };
+  },
+  mounted() {
+    this.getNotify()
+  },
+  methods: {
+    getNotify() {
+      this.loading = true;
+      axios
+        .get("https://tocode.ru/static/_secret/courses/1/notifyApi.php")
+        .then((response) => {
+          let res = response.data.notify;
+          this.messages = res;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => (this.loading = false));
+    },
   },
 };
 </script>
