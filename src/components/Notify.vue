@@ -25,6 +25,7 @@ export default {
 <style lang="scss" scoped>
 table {
   text-align: center;
+  border-collapse: collapse;
 }
 td {
   display: flex;

@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import shop from "../modules/shop"
+import notify from "../modules/notify"
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
-  modules: { shop },
+  modules: { notify },
 }) 
