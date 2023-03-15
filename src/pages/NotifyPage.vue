@@ -58,7 +58,7 @@ export default {
 
   computed: {
     messages() {
-      return this.$store.getters.GET_MESSAGES;
+      return this.$store.getters.GET_MESSAGES_MAIN;
     },
   },
 
@@ -88,7 +88,7 @@ export default {
           }
           console.log(messages, messagesMain);
           this.$store.dispatch("SET_MESSAGES", messages);
-          this.$store.dispatch("SET_MESSAGES", messagesMain);
+          this.$store.dispatch("SET_MESSAGES_MAIN", messagesMain);
         })
         .catch((error) => {
           console.log(error);
@@ -123,6 +123,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 0 0 20px;
   p {
     font-size: 24px;
   }
