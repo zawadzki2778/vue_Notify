@@ -31,9 +31,13 @@
 
           <!-- notify -->
           <div class="notify__content">
+            <!-- error -->
+            <div class="error" v-if="error">
+              <p>{{ error }}</p>
+            </div>
             <!-- preloader -->
             <Preloader v-if="loading" :width="90" :height="90" />
-            <Notify :messages="messages" v-if="!loading" />
+            <Notify :messages="messages" v-if="!loading && !error" />
           </div>
         </div>
       </div>
@@ -50,6 +54,7 @@ export default {
   data() {
     return {
       loading: true,
+      error: null,
     };
   },
   mounted() {
@@ -75,8 +80,8 @@ export default {
         .get("https://tocode.ru/static/_secret/courses/1/notifyApi.php")
         .then((response) => {
           let res = response.data.notify,
-          messages = [],
-          messagesMain = [];
+            messages = [],
+            messagesMain = [];
 
           // filter
           for (let i = 0; i < res.length; i++) {
@@ -91,7 +96,7 @@ export default {
           this.$store.dispatch("SET_MESSAGES_MAIN", messagesMain);
         })
         .catch((error) => {
-          console.log(error);
+          this.error = "ERROR! problem with network";
         })
         .finally(() => (this.loading = false));
     },
@@ -127,6 +132,9 @@ export default {
   p {
     font-size: 24px;
   }
+}
+.error {
+  color: firebrick;
 }
 section {
   padding: 0;
